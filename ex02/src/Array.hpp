@@ -4,8 +4,8 @@
 template <typename T>
 class Array {
 private:
-    T* _array;
-    unsigned int _size;
+    T* arrays;
+    unsigned int length;
 
 public:
     // Default constructor
@@ -33,24 +33,24 @@ public:
 
 // Default constructor
 template <typename T>
-Array<T>::Array() : _array(NULL), _size(0) {
+Array<T>::Array() : arrays(NULL), length(0) {
     std::cout << "Array default constructor called" << std::endl;
 }
 
 // Parametrized constructor
 template <typename T>
-Array<T>::Array(unsigned int n) : _array(new T[n]()), _size(n) {
-    std::cout << "Array parametrized constructor called with size " << n << std::endl;
+Array<T>::Array(unsigned int n) : arrays(new T[n]()), length(n) {
+    std::cout << "Array parametrized constructor called with length " << n << std::endl;
 }
 
 // Copy constructor
 template <typename T>
-Array<T>::Array(const Array& other) : _array(NULL), _size(other._size) {
+Array<T>::Array(const Array& other) : arrays(NULL), length(other.length) {
     std::cout << "Array copy constructor called" << std::endl;
-    if (other._size > 0) {
-        _array = new T[other._size];
-        for (unsigned int i = 0; i < _size; i++) {
-            _array[i] = other._array[i];
+    if (other.length > 0) {
+        arrays = new T[other.length];
+        for (unsigned int i = 0; i < length; i++) {
+            arrays[i] = other.arrays[i];
         }
     }
 }
@@ -60,17 +60,17 @@ template <typename T>
 Array<T>& Array<T>::operator=(const Array& other) {
     std::cout << "Array copy assignment operator called" << std::endl;
     if (this != &other) {
-        if (_array != NULL) {
-            delete[] _array;
+        if (arrays != NULL) {
+            delete[] arrays;
         }
-        _size = other._size;
-        if (other._size > 0) {
-            _array = new T[other._size];
-            for (unsigned int i = 0; i < _size; i++) {
-                _array[i] = other._array[i];
+        length = other.length;
+        if (other.length > 0) {
+            arrays = new T[other.length];
+            for (unsigned int i = 0; i < length; i++) {
+                arrays[i] = other.arrays[i];
             }
         } else {
-            _array = NULL;
+            arrays = NULL;
         }
     }
     return *this;
@@ -80,31 +80,31 @@ Array<T>& Array<T>::operator=(const Array& other) {
 template <typename T>
 Array<T>::~Array() {
     std::cout << "Array destructor called" << std::endl;
-    if (_array != NULL) {
-        delete[] _array;
+    if (arrays != NULL) {
+        delete[] arrays;
     }
 }
 
-// Size function
+// length function
 template <typename T>
 unsigned int Array<T>::size() const {
-    return _size;
+    return length;
 }
 
 // Subscript operator
 template <typename T>
 T& Array<T>::operator[](unsigned int index) {
-    if (index >= _size) {
+    if (index >= length) {
         throw std::exception();
     }
-    return _array[index];
+    return arrays[index];
 }
 
 // Const subscript operator
 template <typename T>
 const T& Array<T>::operator[](unsigned int index) const {
-    if (index >= _size) {
+    if (index >= length) {
         throw std::exception();
     }
-    return _array[index];
+    return arrays[index];
 }
